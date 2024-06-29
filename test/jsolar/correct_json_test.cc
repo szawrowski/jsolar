@@ -3,7 +3,7 @@
 #include "jsolar/jsolar.h"
 
 TEST(JsolarTest, CorrectJsonMacro) {
-  const auto config = jsolar(
+  const auto config = json(
     {
       "name": "John Doe",
       "age": 30,
@@ -17,8 +17,7 @@ TEST(JsolarTest, CorrectJsonMacro) {
       },
       "phone_numbers": [
         "555-1234",
-        "555-5678"
-      ],
+        "555-5678" ],
       "skills": [
         "C++",
         "Python",
@@ -28,7 +27,7 @@ TEST(JsolarTest, CorrectJsonMacro) {
         "highschool": "Anytown High School",
         "university": {
           "name": "State University",
-          "graduation_year": 2020
+          "graduation_year" : 2020
         }
       },
       "projects": [
@@ -43,45 +42,46 @@ TEST(JsolarTest, CorrectJsonMacro) {
       ]
     }
   );
-  ASSERT_FALSE(config.HasError());
+  ASSERT_FALSE(config.has_error());
 }
 
 TEST(JsolarTest, CorrectJsonMacroDocument) {
-  auto config = jsolar::MakeDocument();
+  auto config = json::make_document();
 
   config["name"] = "John Doe";
   config["age"] = 30;
 
-  config["array"] = jsolar::MakeArray();
-  config["object"] = jsolar::MakeObject();
+  config["array"] = json::make_array();
+  config["object"] = json::make_object();
 
   config["is_student"] = false;
 
-  config["address"] = jsolar::MakeObject();
+  config["address"] = json::make_object();
   config["address"]["street"] = "123 Main St";
   config["address"]["city"] = "Anytown";
   config["address"]["zip"] = "12345";
 
-  config["phone_numbers"] = jsolar::MakeArray();
-  config["phone_numbers"].Append("555-1234", "555-5678");
+  config["phone_numbers"] = json::make_array();
+  config["phone_numbers"].append("555-1234", "555-5678");
 
-  config["skills"] = jsolar::MakeArray("C++", "Python", "JSON");
+  config["skills"] = json::make_array("C++", "Python", "JSON");
 
-  config["education"] = jsolar::MakeObject();
+  config["education"] = json::make_object();
   config["education"]["highschool"] = "Anytown High School";
-  config["education"]["university"] = jsolar::MakeObject();
+  config["education"]["university"] = json::make_object();
   config["education"]["university"]["name"] = "State University";
   config["education"]["university"]["graduation_year"] = 2020;
 
-  config["projects"] = jsolar::MakeArray();
-  config["projects"].Append(jsolar::MakeObject(), jsolar::MakeObject());
+  config["projects"] = json::make_array();
+  config["projects"].append(json::make_object(), json::make_object());
 
   config["projects"][0]["title"] = "Project One";
   config["projects"][0]["description"] = "Description of Project One";
 
-  config.AddMember(jsolarpath("projects", jsolaridx(1), "title"), "Project Two");
-  config.AddMember(jsolarpath("projects", jsolaridx(1), "description"),
-                   "Description of Project Two");
+  config.add_member(json_path("projects", json_index(1), "title"),
+                    "Project Two");
+  config.add_member(json_path("projects", json_index(1), "description"),
+                    "Description of Project Two");
 
-  ASSERT_FALSE(config.HasError());
+  ASSERT_FALSE(config.has_error());
 }

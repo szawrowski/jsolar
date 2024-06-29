@@ -5,7 +5,7 @@
 #include "jsolar/jsolar.h"
 
 TEST(JsolarTest, IoOperator) {
-  const auto output_config = jsolar(
+  const auto output_config = json(
     {
       "name": {
         "first": "John",
@@ -23,7 +23,7 @@ TEST(JsolarTest, IoOperator) {
       ]
     }
   );
-  ASSERT_FALSE(output_config.HasError());
+  ASSERT_FALSE(output_config.has_error());
 
   std::ofstream output_file{"operator_test.json"};
   if (output_file.is_open()) {
@@ -31,7 +31,7 @@ TEST(JsolarTest, IoOperator) {
     output_file.close();
   }
 
-  auto input_config = jsolar::MakeDocument();
+  auto input_config = json::make_document();
 
   std::ifstream input_file{"operator_test.json"};
   if (input_file.is_open()) {
@@ -39,8 +39,8 @@ TEST(JsolarTest, IoOperator) {
     output_file.close();
   }
 
-  ASSERT_FALSE(input_config.HasError());
+  ASSERT_FALSE(input_config.has_error());
 
-  ASSERT_STREQ(output_config.ToString().c_str(),
-               input_config.ToString().c_str());
+  ASSERT_STREQ(output_config.to_string().c_str(),
+               input_config.to_string().c_str());
 }

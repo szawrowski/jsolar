@@ -3,36 +3,36 @@
 #include "jsolar/jsolar.h"
 
 TEST(JsolarTest, InitBracketOperator) {
-  auto config = jsolar::MakeDocument();
-  config["name"] = jsolar::MakeObject();
+  auto config = json::make_document();
+  config["name"] = json::make_object();
   config["name"]["first"] = "John";
   config["name"]["last"] = "Doe";
   config["age"] = 30;
-  config["address"] = jsolar::MakeObject();
+  config["address"] = json::make_object();
   config["address"]["street"] = "123 Main St";
   config["address"]["city"] = "Anytown";
   config["address"]["zip"] = "12345";
-  config["phone_numbers"] = jsolar::MakeArray("555-1234", "555-5678");
-  ASSERT_FALSE(config.HasError());
+  config["phone_numbers"] = json::make_array("555-1234", "555-5678");
+  ASSERT_FALSE(config.has_error());
 }
 
 TEST(JsolarTest, InitMethods) {
-  auto config = jsolar::MakeDocument();
-  config.AddMember("name", jsolar::MakeObject());
-  config.AddMember(jsolarpath("name", "first"), "John");
-  config.AddMember(jsolarpath("name", "second"), "Doe");
-  config.AddMember("age", 30);
-  config.AddMember("address", jsolar::MakeObject());
-  config.AddMember(jsolarpath("address", "street"), "123 Main St");
-  config.AddMember(jsolarpath("address", "city"), "Anytown");
-  config.AddMember(jsolarpath("address", "zip"), "12345");
-  config.AddMember("phone_numbers", jsolar::MakeArray("555-1234", "555-5678"));
+  auto config = json::make_document();
+  config.add_member("name", json::make_object());
+  config.add_member(json_path("name", "first"), "John");
+  config.add_member(json_path("name", "second"), "Doe");
+  config.add_member("age", 30);
+  config.add_member("address", json::make_object());
+  config.add_member(json_path("address", "street"), "123 Main St");
+  config.add_member(json_path("address", "city"), "Anytown");
+  config.add_member(json_path("address", "zip"), "12345");
+  config.add_member("phone_numbers", json::make_array("555-1234", "555-5678"));
 
-  ASSERT_FALSE(config.HasError());
+  ASSERT_FALSE(config.has_error());
 }
 
 TEST(JsolarTest, InitNative) {
-  const auto config = jsolar(
+  const auto config = json(
     {
       "name": {
         "first": "John",
@@ -50,5 +50,5 @@ TEST(JsolarTest, InitNative) {
       ]
     }
   );
-  ASSERT_FALSE(config.HasError());
+  ASSERT_FALSE(config.has_error());
 }
