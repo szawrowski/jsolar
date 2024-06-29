@@ -8,41 +8,41 @@
 
 #include "jsolar/types/json.h"
 
-namespace jsolar {
+namespace json {
 
-static impl::Json Make(const JsonClassType value) {
-  return impl::Json::internal_make(value);
+static impl::json_t make(const json_class_type value) {
+  return impl::json_t::__internal_make(value);
 }
 
-static impl::Json MakeObject() { return Make(JsonClassType::kObject); }
+static impl::json_t make_object() { return make(json_class_type::object); }
 
-static impl::Json MakeArray() { return Make(JsonClassType::kArray); }
+static impl::json_t make_array() { return make(json_class_type::array); }
 
 template <typename... T>
-static impl::Json MakeArray(T... args) {
-  auto array = Make(JsonClassType::kArray);
-  array.Append(args...);
+static impl::json_t make_array(T... args) {
+  auto array = make(json_class_type::array);
+  array.append(args...);
   return array;
 }
 
-static impl::Json MakeNull() { return Make(JsonClassType::kNull); }
+static impl::json_t make_null() { return make(json_class_type::null); }
 
-static impl::Json MakeString(const impl::Json::StringType& value) {
-  return impl::Json{value};
+static impl::json_t make_string(const impl::json_t::string_type& value) {
+  return impl::json_t{value};
 }
 
-static impl::Json MakeFloating(const impl::Json::FloatingType value) {
-  return impl::Json{value};
+static impl::json_t make_floating(const impl::json_t::floating_type value) {
+  return impl::json_t{value};
 }
 
-static impl::Json MakeFloating(const impl::Json::IntegralType value) {
-  return impl::Json{value};
+static impl::json_t make_integral(const impl::json_t::integral_type value) {
+  return impl::json_t{value};
 }
 
-static impl::Json MakeFloating(const impl::Json::BooleanType value) {
-  return impl::Json{value};
+static impl::json_t make_boolean(const impl::json_t::boolean_type value) {
+  return impl::json_t{value};
 }
 
-}  // namespace jsolar
+}  // namespace json
 
 #endif  // JSOLAR_UTIL_VALUE_MAKER_H_

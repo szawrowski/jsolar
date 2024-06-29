@@ -10,49 +10,49 @@
 
 #include "jsolar/parser/json_parse_error_type.h"
 
-namespace jsolar {
+namespace json {
 namespace impl {
 
-static std::string GetJsonParseErrorString(
-    const std::pair<JsonParseErrorType, size_t>& error) {
+static std::string get_json_parse_error_string(
+    const std::pair<json_parse_error_type, size_t>& error) {
   std::ostringstream oss;
-  const auto position_header{". At position: "};
+  const auto position_header{" (at position: )"};
 
   switch (error.first) {
-    case JsonParseErrorType::kNoError:
+    case json_parse_error_type::no_error:
       oss << "No error";
       return oss.str();
-    case JsonParseErrorType::kUnterminatedString:
+    case json_parse_error_type::unterminated_string:
       oss << "Unterminated string";
       break;
-    case JsonParseErrorType::kExpectedStringKey:
+    case json_parse_error_type::expected_string_key:
       oss << "Expected string key";
       break;
-    case JsonParseErrorType::kMissingColon:
+    case json_parse_error_type::missing_colon:
       oss << "Missing colon";
       break;
-    case JsonParseErrorType::kUnterminatedObject:
+    case json_parse_error_type::unterminated_object:
       oss << "Unterminated object";
       break;
-    case JsonParseErrorType::kUnterminatedArray:
+    case json_parse_error_type::unterminated_array:
       oss << "Unterminated array";
       break;
-    case JsonParseErrorType::kInvalidNumber:
+    case json_parse_error_type::invalid_number:
       oss << "Invalid number";
       break;
-    case JsonParseErrorType::kNumberConversionError:
+    case json_parse_error_type::number_conversion_error:
       oss << "Number conversion error";
       break;
-    case JsonParseErrorType::kInvalidValue:
+    case json_parse_error_type::invalid_value:
       oss << "Invalid value";
       break;
-    case JsonParseErrorType::kUnexpectedCharacter:
+    case json_parse_error_type::unexpected_character:
       oss << "Unexpected character";
       break;
-    case JsonParseErrorType::kTrailingComma:
+    case json_parse_error_type::trailing_comma:
       oss << "Trailing comma";
       break;
-    case JsonParseErrorType::kInvalidJson:
+    case json_parse_error_type::invalid_json:
       oss << "Invalid JSON";
       break;
     default:
@@ -64,6 +64,6 @@ static std::string GetJsonParseErrorString(
 }
 
 }  // namespace impl
-}  // namespace jsolar
+}  // namespace json
 
 #endif  // JSOLAR_DEFS_JSON_PARSE_ERROR_STRING_H_

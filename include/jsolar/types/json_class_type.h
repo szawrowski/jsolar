@@ -6,18 +6,18 @@
 #ifndef JSOLAR_TYPES_JSON_CLASS_TYPE_H_
 #define JSOLAR_TYPES_JSON_CLASS_TYPE_H_
 
-namespace jsolar {
+namespace json {
 
-enum class JsonClassType {
-  kNull,
-  kObject,
-  kArray,
-  kString,
-  kFloating,
-  kIntegral,
-  kBoolean
+enum class json_class_type {
+  null,
+  object,
+  array,
+  string,
+  floating,
+  integral,
+  boolean
 };
 
-}  // namespace jsolar
+}  // namespace json
 
 #endif  // JSOLAR_TYPES_JSON_CLASS_TYPE_H_

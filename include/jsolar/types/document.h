@@ -12,43 +12,44 @@
 #include "jsolar/parser/json_parser.h"
 #include "jsolar/utility/value_maker.h"
 
-namespace jsolar {
+namespace json {
 
-class Document {
+class document_t {
 public:
-  using JsonType = impl::Json;
-  using JsonParserType = impl::JsonParser;
+  using json_type = impl::json_t;
+  using json_parser_type = impl::json_parser_t;
 
 public:
-  Document() = default;
+  document_t() = default;
 
-  Document(const std::string& value) { Parse(value); }
+  document_t(const std::string& value) { parse(value); }
 
-  Document(const std::ifstream& stream) { Parse(stream); }
+  document_t(const std::ifstream& stream) { parse(stream); }
 
-  Document(const Document& other) : root_{other.root_}, error_{other.error_} {}
+  document_t(const document_t& other)
+      : root_{other.root_}, error_{other.error_} {}
 
-  Document(Document&& other) noexcept
+  document_t(document_t&& other) noexcept
       : root_{std::move(other.root_)}, error_{std::move(other.error_)} {
-    other.root_ = MakeNull();
-    other.error_ = std::make_pair(JsonParseErrorType::kNoError,
+    other.root_ = make_null();
+    other.error_ = std::make_pair(json_parse_error_type::no_error,
                                   std::numeric_limits<size_t>::max());
   }
 
-  ~Document() = default;
+  ~document_t() = default;
 
 public:
-  Document& operator=(const std::string& value) {
-    Parse(value);
+  document_t& operator=(const std::string& value) {
+    parse(value);
     return *this;
   }
 
-  Document& operator=(const std::ifstream& stream) {
-    Parse(stream);
+  document_t& operator=(const std::ifstream& stream) {
+    parse(stream);
     return *this;
   }
 
-  Document& operator=(const Document& other) {
+  document_t& operator=(const document_t& other) {
     if (this != &other) {
       root_ = other.root_;
       error_ = other.error_;
@@ -56,57 +57,58 @@ public:
     return *this;
   }
 
-  Document& operator=(Document&& other) noexcept {
+  document_t& operator=(document_t&& other) noexcept {
     if (this != &other) {
       root_ = std::move(other.root_);
       error_ = other.error_;
-      other.root_ = MakeNull();
-      other.error_ = std::make_pair(JsonParseErrorType::kNoError, 0);
+      other.root_ = make_null();
+      other.error_ = std::make_pair(json_parse_error_type::no_error, 0);
     }
     return *this;
   }
 
 public:
-  JsonType& operator[](const std::string& key) { return root_[key]; }
+  json_type& operator[](const std::string& key) { return root_[key]; }
 
-  const JsonType& operator[](const std::string& key) const {
-    return root_.At(key);
+  const json_type& operator[](const std::string& key) const {
+    return root_.at(key);
   }
 
 public:
-  void Parse(const std::string& value) {
-    if (const auto parser = JsonParserType::Parse(value);
-        parser.HasError()) {
-      error_ = parser.GetError();
-      root_ = MakeNull();
+  void parse(const std::string& value) {
+    if (const auto parser = json_parser_type::parse(value);
+        parser.has_error()) {
+      error_ = parser.get_error();
+      root_ = make_null();
     } else {
-      error_ = std::make_pair(JsonParseErrorType::kNoError, 0);
-      root_ = parser.GetData();
+      error_ = std::make_pair(json_parse_error_type::no_error, 0);
+      root_ = parser.get_data();
     }
   }
 
-  void Parse(const std::ifstream& ifs) {
+  void parse(const std::ifstream& ifs) {
     std::ostringstream buffer;
     buffer << ifs.rdbuf();
 
-    Parse(buffer.str());
+    parse(buffer.str());
   }
 
-  void AddMember(const std::string& key, const JsonType& value) {
+  void add_member(const std::string& key, const json_type& value) {
     root_[key] = value;
   }
 
-  void AddMember(const std::vector<std::string>& keys, const JsonType& value) {
-    JsonType* current = &root_;
+  void add_member(const std::vector<std::string>& keys,
+                  const json_type& value) {
+    json_type* current = &root_;
 
     // Traverse through keys to navigate the nested structure
     for (const auto& key : keys) {
-      if (current->IsArray() && impl::IsNumber(key)) {
+      if (current->is_array() && impl::is_number(key)) {
         // Convert key to array index if current object is an array
         const size_t index = std::stoull(key);
         // Expand the array if index is greater than current size
-        while (index >= current->Size()) {
-          current->Append(JsonType{});
+        while (index >= current->size()) {
+          current->append(json_type{});
         }
         // Move to the new array element
         current = &(*current)[index];
@@ -119,9 +121,9 @@ public:
     *current = value;
   }
 
-  void RemoveMember(const std::string& key) {
-    if (root_.HasMember(key)) {
-      auto& obj = root_.GetData();
+  void remove_member(const std::string& key) {
+    if (root_.has_member(key)) {
+      auto& obj = root_.get_data();
       obj.erase(std::remove_if(
                     obj.begin(), obj.end(),
                     [&key](const auto& pair) { return pair.first == key; }),
@@ -129,46 +131,47 @@ public:
     }
   }
 
-  [[nodiscard]] bool HasMember(const std::string& key) const {
-    return root_.HasMember(key);
+  [[nodiscard]] bool has_member(const std::string& key) const {
+    return root_.has_member(key);
   }
 
-  [[nodiscard]] size_t Size() const { return root_.Size(); }
+  [[nodiscard]] size_t size() const { return root_.size(); }
 
-  [[nodiscard]] bool HasError() const {
-    return error_.first != JsonParseErrorType::kNoError;
+  [[nodiscard]] bool has_error() const {
+    return error_.first != json_parse_error_type::no_error;
   }
 
-  [[nodiscard]] JsonParseErrorType GetError() const { return error_.first; }
+  [[nodiscard]] json_parse_error_type get_error() const { return error_.first; }
 
-  [[nodiscard]] auto GetErrorString() const {
-    return impl::GetJsonParseErrorString(error_);
+  [[nodiscard]] auto get_error_string() const {
+    return impl::get_json_parse_error_string(error_);
   }
 
-  [[nodiscard]] JsonClassType GetType() const { return root_.GetType(); }
+  [[nodiscard]] json_class_type get_type() const { return root_.get_type(); }
 
-  [[nodiscard]] std::string ToString(const bool mangling = false,
-                                     const size_t indent = 2) const {
-    return root_.ToString(mangling, indent);
+  [[nodiscard]] std::string to_string(const bool mangling = false,
+                                      const size_t indent = 2) const {
+    return root_.to_string(mangling, indent);
   }
 
 private:
-  JsonType root_{MakeObject()};
-  std::pair<JsonParseErrorType, size_t> error_{JsonParseErrorType::kNoError, 0};
+  json_type root_{make_object()};
+  std::pair<json_parse_error_type, size_t> error_{
+      json_parse_error_type::no_error, 0};
 };
 
-static std::istream& operator>>(std::istream& is, Document& value) {
+static std::istream& operator>>(std::istream& is, document_t& value) {
   std::ostringstream buffer;
   buffer << is.rdbuf();
-  value.Parse(buffer.str());
+  value.parse(buffer.str());
   return is;
 }
 
-static std::ostream& operator<<(std::ostream& os, const Document& value) {
-  os << value.ToString();
+static std::ostream& operator<<(std::ostream& os, const document_t& value) {
+  os << value.to_string();
   return os;
 }
 
-}  // namespace jsolar
+}  // namespace json
 
 #endif  // JSOLAR_TYPES_DOCUMENT_H_

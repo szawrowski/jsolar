@@ -8,24 +8,26 @@
 
 #include "jsolar/types/document.h"
 
-namespace jsolar {
+namespace json {
 
-static Document MakeDocument() { return Document{}; }
+static document_t make_document() { return document_t{}; }
 
-static Document MakeDocument(const std::string& value) {
-  return Document{value};
+static document_t make_document(const std::string& value) {
+  return document_t{value};
 }
 
-static Document MakeDocument(const Document& value) { return Document{value}; }
-
-static Document MakeDocument(Document&& value) {
-  return Document{std::move(value)};
+static document_t make_document(const document_t& value) {
+  return document_t{value};
 }
 
-static Document MakeDocument(const std::ifstream& stream) {
-  return Document{stream};
+static document_t make_document(document_t&& value) {
+  return document_t{std::move(value)};
 }
 
-}  // namespace jsolar
+static document_t make_document(const std::ifstream& stream) {
+  return document_t{stream};
+}
+
+}  // namespace json
 
 #endif  // JSOLAR_UTIL_DOCUMENT_MAKER_H_
