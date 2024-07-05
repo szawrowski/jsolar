@@ -8,6 +8,7 @@
 
 #include "jsolar/types/json.h"
 
+namespace cait {
 namespace json {
 
 static impl::json_t make(const json_class_type value) {
@@ -44,5 +45,6 @@ static impl::json_t make_boolean(const impl::json_t::boolean_type value) {
 }
 
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_UTIL_VALUE_MAKER_H_

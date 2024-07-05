@@ -6,6 +6,7 @@
 #ifndef JSOLAR_DEFS_CHAR_HEX_H_
 #define JSOLAR_DEFS_CHAR_HEX_H_
 
+namespace cait {
 namespace json {
 namespace impl {
 
@@ -51,5 +52,6 @@ static constexpr auto get_symbol(const char_hex value) {
 
 }  // namespace impl
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_DEFS_CHAR_HEX_H_

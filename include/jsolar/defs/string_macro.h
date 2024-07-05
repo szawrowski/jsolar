@@ -6,7 +6,7 @@
 #ifndef JSOLAR_DEFS_STRING_MACRO_H_
 #define JSOLAR_DEFS_STRING_MACRO_H_
 
-#define json(...) json::make_document(#__VA_ARGS__)
+#define json(...) cait::json::make_document(#__VA_ARGS__)
 
 #define json_path(...) std::vector<std::string>{__VA_ARGS__}
 

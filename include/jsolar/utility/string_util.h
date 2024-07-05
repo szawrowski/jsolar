@@ -11,6 +11,7 @@
 
 #include "jsolar/defs/char_hex.h"
 
+namespace cait {
 namespace json {
 namespace impl {
 
@@ -22,37 +23,37 @@ static auto escape_string(const std::string& str) {
       switch (str[i + 1]) {
         case get_symbol(char_hex::double_quote):
           oss << get_symbol(char_hex::double_quote);
-          break;
+        break;
         case get_symbol(char_hex::question_mark):
           oss << get_symbol(char_hex::question_mark);
-          break;
+        break;
         case get_symbol(char_hex::backslash):
           oss << get_symbol(char_hex::backslash);
-          break;
+        break;
         case get_symbol(char_hex::slash):
           oss << get_symbol(char_hex::slash);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_a):
           oss << get_symbol(char_hex::audible_bell);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_b):
           oss << get_symbol(char_hex::backspace);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_f):
           oss << get_symbol(char_hex::form_feed);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_n):
           oss << get_symbol(char_hex::line_feed);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_r):
           oss << get_symbol(char_hex::carriage_return);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_t):
           oss << get_symbol(char_hex::horizontal_tab);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_v):
           oss << get_symbol(char_hex::vertical_tab);
-          break;
+        break;
         case get_symbol(char_hex::lowercase_u): {
           if (i + 5 < str.size()) {
             auto hex = str.substr(i + 2, 4);
@@ -68,8 +69,8 @@ static auto escape_string(const std::string& str) {
         }
         default:
           // Invalid escape sequence, handle it as an error
-          oss << get_symbol(char_hex::backslash) + str[i + 1];
-          break;
+            oss << get_symbol(char_hex::backslash) + str[i + 1];
+        break;
       }
       ++i;  // Skip the escaped character
     } else {
@@ -106,5 +107,6 @@ static size_t find_last_nonws(const std::string& str) {
 
 }  // namespace impl
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_UTIL_STRING_UTIL_H_

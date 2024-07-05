@@ -16,6 +16,7 @@
 #include "jsolar/types/json.h"
 #include "jsolar/utility/value_maker.h"
 
+namespace cait {
 namespace json {
 namespace impl {
 
@@ -86,10 +87,10 @@ private:
             json_[position_] == get_symbol(char_hex::minus) ||
             json_[position_] == get_symbol(char_hex::plus)) {
           return parse_number();
-        }
-        set_error(json_parse_error_type::unexpected_character);
-        set_error_position(position_);
-        return json_t{};
+            }
+      set_error(json_parse_error_type::unexpected_character);
+      set_error_position(position_);
+      return json_t{};
     }
   }
 
@@ -142,11 +143,11 @@ private:
                    get_symbol(char_hex::closing_curly_bracket)) {
           next();
           return result;
-        } else {
-          set_error(json_parse_error_type::unexpected_character);
-          set_error_position(position_);
-          return json_t{};
-        }
+                   } else {
+                     set_error(json_parse_error_type::unexpected_character);
+                     set_error_position(position_);
+                     return json_t{};
+                   }
       } else {
         set_error(json_parse_error_type::unexpected_character);
         set_error_position(position_);
@@ -187,11 +188,11 @@ private:
                  get_symbol(char_hex::closing_square_bracket)) {
         next();
         return result;
-      } else {
-        set_error(json_parse_error_type::unexpected_character);
-        error_position_ = position_;
-        return json_t{};
-      }
+                 } else {
+                   set_error(json_parse_error_type::unexpected_character);
+                   error_position_ = position_;
+                   return json_t{};
+                 }
     }
     set_error(json_parse_error_type::unterminated_array);
     set_error_position(position_);
@@ -262,7 +263,7 @@ private:
         escaped_stream << json_[position_];
       }
       next();
-    }
+           }
     if (json_[position_] == get_symbol(char_hex::double_quote)) {
       next();
       return escaped_stream.str();
@@ -297,7 +298,7 @@ private:
             json_[end_number] == get_symbol(char_hex::minus) ||
             json_[end_number] == get_symbol(char_hex::plus))) {
       ++end_number;
-    }
+            }
     const std::string number_str =
         json_.substr(position_, end_number - position_);
     try {
@@ -307,9 +308,9 @@ private:
           number_str.find(get_symbol(char_hex::capital_e)) !=
               std::string::npos) {
         result = std::stod(number_str);
-      } else {
-        result = std::stoll(number_str);
-      }
+              } else {
+                result = std::stoll(number_str);
+              }
     } catch (const std::out_of_range&) {
       set_error(json_parse_error_type::out_of_range_error);
       set_error_position(position_);
@@ -330,7 +331,7 @@ private:
             json_[position_] == get_symbol(char_hex::line_feed) ||
             json_[position_] == get_symbol(char_hex::carriage_return))) {
       next();
-    }
+            }
   }
 
   void next(const size_t count = 1) { position_ += count; }
@@ -349,6 +350,7 @@ private:
 
 }  // namespace impl
 }  // namespace json
+}  // namespace cait
 
 // Comment
 

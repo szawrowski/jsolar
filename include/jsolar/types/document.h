@@ -12,6 +12,7 @@
 #include "jsolar/parser/json_parser.h"
 #include "jsolar/utility/value_maker.h"
 
+namespace cait {
 namespace json {
 
 class document_t {
@@ -80,10 +81,10 @@ public:
         parser.has_error()) {
       error_ = parser.get_error();
       root_ = make_null();
-    } else {
-      error_ = std::make_pair(json_parse_error_type::no_error, 0);
-      root_ = parser.get_data();
-    }
+        } else {
+          error_ = std::make_pair(json_parse_error_type::no_error, 0);
+          root_ = parser.get_data();
+        }
   }
 
   void parse(const std::ifstream& ifs) {
@@ -157,7 +158,7 @@ public:
 private:
   json_type root_{make_object()};
   std::pair<json_parse_error_type, size_t> error_{
-      json_parse_error_type::no_error, 0};
+    json_parse_error_type::no_error, 0};
 };
 
 static std::istream& operator>>(std::istream& is, document_t& value) {
@@ -173,5 +174,6 @@ static std::ostream& operator<<(std::ostream& os, const document_t& value) {
 }
 
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_TYPES_DOCUMENT_H_

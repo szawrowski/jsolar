@@ -8,6 +8,7 @@
 
 #include "jsolar/types/document.h"
 
+namespace cait {
 namespace json {
 
 static document_t make_document() { return document_t{}; }
@@ -29,5 +30,6 @@ static document_t make_document(const std::ifstream& stream) {
 }
 
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_UTIL_DOCUMENT_MAKER_H_

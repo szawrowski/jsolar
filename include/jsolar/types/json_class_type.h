@@ -6,6 +6,7 @@
 #ifndef JSOLAR_TYPES_JSON_CLASS_TYPE_H_
 #define JSOLAR_TYPES_JSON_CLASS_TYPE_H_
 
+namespace cait {
 namespace json {
 
 enum class json_class_type {
@@ -19,5 +20,6 @@ enum class json_class_type {
 };
 
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_TYPES_JSON_CLASS_TYPE_H_

@@ -19,6 +19,7 @@
 #include "jsolar/types/json_class_type.h"
 #include "jsolar/utility/string_util.h"
 
+namespace cait {
 namespace json {
 namespace impl {
 
@@ -354,22 +355,22 @@ private:
       }
       case json_class_type::null:
         oss << get_null_str();
-        break;
+      break;
       case json_class_type::string:
         oss << get_symbol(char_hex::double_quote)
             << escape_string(*std::get_if<string_type>(&data_))
             << get_symbol(char_hex::double_quote);
-        break;
+      break;
       case json_class_type::floating:
         oss << *std::get_if<floating_type>(&data_);
-        break;
+      break;
       case json_class_type::integral:
         oss << *std::get_if<integral_type>(&data_);
-        break;
+      break;
       case json_class_type::boolean:
         oss << (*std::get_if<boolean_type>(&data_) ? get_boolean_str(true)
                                                    : get_boolean_str(false));
-        break;
+      break;
     }
   }
 
@@ -380,25 +381,25 @@ private:
       switch (type_) {
         case json_class_type::null:
           data_ = null_type{};
-          break;
+        break;
         case json_class_type::object:
           data_ = object_type{};
-          break;
+        break;
         case json_class_type::array:
           data_ = array_type{};
-          break;
+        break;
         case json_class_type::string:
           data_ = string_type{};
-          break;
+        break;
         case json_class_type::floating:
           data_ = floating_type{};
-          break;
+        break;
         case json_class_type::integral:
           data_ = integral_type{};
-          break;
+        break;
         case json_class_type::boolean:
           data_ = boolean_type{};
-          break;
+        break;
       }
     }
   }
@@ -423,7 +424,7 @@ private:
       }
       case json_class_type::string:
         std::get_if<string_type>(&data_)->clear();
-        break;
+      break;
       default:
         type_ = json_class_type::null;
     }
@@ -469,5 +470,6 @@ private:
 
 }  // namespace impl
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_TYPES_JSON_H_

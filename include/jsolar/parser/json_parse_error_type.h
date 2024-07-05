@@ -6,6 +6,7 @@
 #ifndef JSOLAR_PARSER_JSON_PARSE_ERROR_TYPE_H_
 #define JSOLAR_PARSER_JSON_PARSE_ERROR_TYPE_H_
 
+namespace cait {
 namespace json {
 
 enum class json_parse_error_type {
@@ -26,5 +27,6 @@ enum class json_parse_error_type {
 };
 
 }  // namespace json
+}  // namespace cait
 
 #endif  // JSOLAR_PARSER_JSON_PARSE_ERROR_TYPE_H_
