@@ -31,7 +31,7 @@ TEST(JsolarTest, IoOperator) {
     output_file.close();
   }
 
-  auto input_config = json::make_document();
+  auto input_config = cait::json::make_document();
 
   std::ifstream input_file{"operator_test.json"};
   if (input_file.is_open()) {
